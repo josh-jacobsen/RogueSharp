@@ -58,12 +58,35 @@ namespace RogueSharp
         // Event handler for RLNET's Update event
         private static void OnRootConsoleUpdate(object sender, UpdateEventArgs e)
         {
-            _rootConsole.Print(10, 10, "It worked!!", RLColor.White);
+            // set background color and text for each console
+            _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, RLColor.Black);
+            _mapConsole.Print(1, 1, "Map", RLColor.White);
+
+            _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, RLColor.Gray);
+            _messageConsole.Print(1, 1, "Messages", RLColor.White);
+
+            _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, RLColor.Brown);
+            _statConsole.Print(1, 1, "Stats", RLColor.White);
+
+            _inventoryConsole.SetBackColor(0, 0, _inventoryWidth, _inventoryHeight, RLColor.Cyan);
+            _inventoryConsole.Print(1, 1, "Inventory", RLColor.White);
         }
 
         // Event handler for RLNET's Render event
         private static void OnRootConsoleRender(object sender, UpdateEventArgs e)
         {
+
+            //Blit the consoles to the root in the correct location 
+            // map
+            RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, _inventoryHeight);
+            // stat
+            RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _inventoryWidth, 0);
+            // message
+            RLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screeenHeight - _messageHeight);
+            // inventory
+            RLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight, _rootConsole, 0, 0);
+
+
             // Tell RLNET to draw the console that we set
             _rootConsole.Draw();
         }
