@@ -1,9 +1,10 @@
 ﻿using RLNET;
 using RogueSharp.Core;
+using RogueSharp.Systems;
 
 namespace RogueSharp
 {
-    public class Game
+    public static class Game
     {
         // height and width are in number of tiles 
         private static readonly int _screenWidth = 100;
@@ -30,7 +31,9 @@ namespace RogueSharp
         private static readonly int _inventoryHeight = 11;
         private static RLConsole _inventoryConsole;
 
-        public static void Main(string[] args)
+        public static DungeonMap DungeonMap { get; private set; }
+
+        public static void Main()
         {
             // This must be the exact name of the bitmap font file
             // we are using or it will error.
@@ -47,6 +50,9 @@ namespace RogueSharp
             _messageConsole = new RLConsole(_messageWidth, _messageHeight);
             _statConsole = new RLConsole(_statWidth, _statHeight);
             _inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
+
+            MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight);
+            //DungeonMap = mapGenerator.CreateMap();
 
             // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
